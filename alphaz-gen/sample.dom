@@ -1,0 +1,18 @@
+%config
+domain		:	sphere
+model		:	geodesics
+system		:	sample_system
+radius		:	100
+channel-count	:	2
+channels	:	temperature(float), pressure(int)
+%
+
+%stencil6
+temperature	:	0.2*(temperature_1+temperature_2+temperature_3+temperature_4+temperature_5+temperature_6)/pressure_0
+pressure	:	pressure_0+1
+%
+
+%stencil5
+temperature	:	temperature_1+temperature_2+temperature_3+temperature_4+temperature_5
+pressure	:	pressure_0+1
+%

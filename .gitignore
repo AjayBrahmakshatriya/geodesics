@@ -1,0 +1,5 @@
+*.pyc
+*.swp
+*.cs.glog
+output
+workspace
