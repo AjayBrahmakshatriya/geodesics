@@ -1,0 +1,21 @@
+affine loop {N,T | N>1 && T>0}
+
+input
+	int Input {i | 0<=i<N};
+
+output
+	int Output {i | 0<=i<N};
+
+local
+	int Temp {i,t | 0<=i<N && 0<=t<=T};
+
+let
+	Output[i] = Temp[i,T];
+	Temp[i,t] =
+	case
+		{|t==0} : Input[i];
+		{|t>0 && i==0} : Temp[N-1,t-1] + Temp[0,t-1] + Temp[1,t-1];
+		{|t>0 && i==N-1} : Temp[N-2,t-1] + Temp[N-1,t-1] + Temp[0,t-1];
+		{|t>0 && i>0 && i<N-1} : Temp[i-1,t-1] + Temp[i,t-1] + Temp[i+1,t-1];
+	esac;
+.

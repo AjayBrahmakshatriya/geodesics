@@ -13,6 +13,8 @@ Split(prog, system, "H", "H_split", "{i,j,t | i+j<=N-1}");
 Split(prog, system, "I", "I_split", "{i,j,t | i+j<=N-1}");
 Split(prog, system, "J", "J_split", "{i,j,t | i+j<=N-1}");
 
+Normalize(prog);
+
 CoB(prog, system, "A", "(i,j,t->N-1-j,N-1-i,t)");
 CoB(prog, system, "B_split", "(i,j,t->N-1-j,N-1-i,t)");
 CoB(prog, system, "A", "(i,j,t->i,i+j+1,t)");
@@ -58,6 +60,8 @@ CoB(prog, system, "I_split", "(i,j,t->i,i+j,t)");
 CoB(prog, system, "J", "(i,j,t->i,j-N+i,t)");
 Merge(prog, system, "I_split", "J", "Slice_9");
 
+Normalize(prog);
+
 setSpaceTimeMap(prog, system, "Slice_0", "(i,j,t->t,i,j)");
 setSpaceTimeMap(prog, system, "Slice_1", "(i,j,t->t,i,j)");
 setSpaceTimeMap(prog, system, "Slice_2", "(i,j,t->t,i,j)");
@@ -83,25 +87,13 @@ setMemoryMap(prog, system, "Slice_7", "Slice_7_space", "(i,j,t->i,j,t)");
 setMemoryMap(prog, system, "Slice_8", "Slice_8_space", "(i,j,t->i,j,t)");
 setMemoryMap(prog, system, "Slice_9", "Slice_9_space", "(i,j,t->i,j,t)");
 
-CoB(prog, system, "Slice_0", "(i,j,t->i+t,j+t,t)");
-CoB(prog, system, "Slice_1", "(i,j,t->i+t,j+t,t)");
-CoB(prog, system, "Slice_2", "(i,j,t->i+t,j+t,t)");
-CoB(prog, system, "Slice_3", "(i,j,t->i+t,j+t,t)");
-CoB(prog, system, "Slice_4", "(i,j,t->i+t,j+t,t)");
-CoB(prog, system, "Slice_5", "(i,j,t->i+t,j+t,t)");
-CoB(prog, system, "Slice_6", "(i,j,t->i+t,j+t,t)");
-CoB(prog, system, "Slice_7", "(i,j,t->i+t,j+t,t)");
-CoB(prog, system, "Slice_8", "(i,j,t->i+t,j+t,t)");
-CoB(prog, system, "Slice_9", "(i,j,t->i+t,j+t,t)");
-
-
-options = createTiledCGOptionForScheduledC();
-setDefaultDTilerConfiguration(prog, system, "sequential");
-
-
+#options = createTiledCGOptionForScheduledC();
+#setDefaultDTilerConfiguration(prog, system, "sequential");
 
 CheckProgram(prog);
 
-generateScheduledCode(prog, system, options, outDir);
-generateWrapper(prog, system, options, outDir);
+#generateScheduledCode(prog, system, options, outDir);
+#generateWrapper(prog, system, options, outDir);
+generateScheduledCode(prog, system, outDir);
+generateWrapper(prog, system, outDir);
 generateMakefile(prog, system, outDir);

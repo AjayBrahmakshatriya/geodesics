@@ -3,3 +3,4 @@
 *.cs.glog
 output
 workspace
+.project
